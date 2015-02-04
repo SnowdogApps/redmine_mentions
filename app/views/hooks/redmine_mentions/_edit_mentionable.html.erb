@@ -5,7 +5,7 @@
 
 
 <%users= @project.users.delete_if{|u| (u.type != 'User' || u.mail.empty?)}%>
-<%users_regex=users.collect{|u| "#{Setting.plugin_redmine_mentions['trigger']}#{u.login}"}.join('|')%>
+<%users_regex=users.collect{|u| "#{Setting.plugin_redmine_mentions['trigger']}#{u.firstname} #{u.lastname}".downcase}.join('|')%>
 <% regex_highlight = '/\B('+users_regex+')/g' %>
 <script>
   $('#issue_notes,#issue_description').textcomplete([
@@ -20,7 +20,7 @@
       index: 1,
       replace: function(mention) {
         var parts = mention.split(' - ');
-        var name = parts[1].substring(parts[1].lastIndexOf("<small>")+7,parts[1].lastIndexOf("</small>"));
+        var name = parts[0];
         return '<%=Setting.plugin_redmine_mentions['trigger']%>' + name + ' ';
       }
     }
