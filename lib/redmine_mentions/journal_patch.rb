@@ -24,7 +24,21 @@ module RedmineMentions
               MentionMailer.notify_mentioning(issue, self.user.login, self.notes, user).deliver
             end
           end
+
+          core_send_notification
         end
+
+        def core_send_notification
+          if notify? && (Setting.notified_events.include?('issue_updated') ||
+              (Setting.notified_events.include?('issue_note_added') && notes.present?) ||
+              (Setting.notified_events.include?('issue_status_updated') && new_status.present?) ||
+              (Setting.notified_events.include?('issue_assigned_to_updated') && detail_for_attribute('assigned_to_id').present?) ||
+              (Setting.notified_events.include?('issue_priority_updated') && new_value_for('priority_id').present?)
+            )
+            Mailer.deliver_issue_edit(self)
+          end
+        end
+
       end
     end
   end
