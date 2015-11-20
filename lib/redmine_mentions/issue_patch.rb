@@ -18,7 +18,7 @@ module RedmineMentions
           end
           users = User.where(login: usernames)
           users.each do |user|
-            MentionMailer.notify_mentioning(issue, issue.author.login, issue.description, user).deliver
+            MentionMailer.notify_mentioning(issue, issue.author, issue.description, user).deliver
           end
         end
       end
