@@ -21,7 +21,7 @@ module RedmineMentions
               users << User.where("firstname = ? and lastname = ?", name_parts[0], name_parts[1]).first
             end
             users.compact.each do |user|
-              MentionMailer.notify_mentioning(issue, self.user.login, self.notes, user).deliver
+              MentionMailer.notify_mentioning(issue, self.user, self.notes, user).deliver
             end
           end
         end
