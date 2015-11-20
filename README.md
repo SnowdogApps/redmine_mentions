@@ -1,6 +1,8 @@
 Redmine Mentions
 ================
 
+Snowdog snow.v1.0.0
+
 Allows users to mention team members in their notes/comments.
 
 Functionality
